@@ -118,8 +118,8 @@
 		47947B0A25F5FBC500EFFCAB /* MainList */ = {
 			isa = PBXGroup;
 			children = (
-				477B558D25F7CA6C00E8DB6E /* MainListView.swift */,
 				477B558625F6527300E8DB6E /* MainListAssembly.swift */,
+				477B558D25F7CA6C00E8DB6E /* MainListView.swift */,
 				47947B0E25F5FC7100EFFCAB /* MainListViewController.swift */,
 				47947B1525F6045400EFFCAB /* MainListPresenter.swift */,
 				477B557F25F609C400E8DB6E /* MainListData.swift */,

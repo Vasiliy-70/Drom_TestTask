@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IMainListViewType: class {
-	func updateView()
+	var uiCollectionView: UICollectionView { get }
 }
 
 final class MainListView: UIView {
@@ -40,6 +40,14 @@ final class MainListView: UIView {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+		super.traitCollectionDidChange(previousTraitCollection)
+		
+		if (traitCollection != previousTraitCollection) {
+			self.setupCollectionView()
+		}
+	}
 }
 
 // MARK: SetupView
@@ -54,7 +62,7 @@ private extension MainListView {
 	func setupCollectionView() {
 		self.collectionView.backgroundColor = .white
 		self.collectionView.isPagingEnabled = false
-		
+
 		self.collectionView.register(MainListCollectionViewCell.self, forCellWithReuseIdentifier: self.viewController.cellIdentifier)
 		
 		self.collectionView.delegate = self.viewController as? UICollectionViewDelegate
@@ -64,7 +72,6 @@ private extension MainListView {
 		let layoutListCollection: UICollectionViewFlowLayout = {
 			let layout = UICollectionViewFlowLayout()
 			let width = UIScreen.main.bounds.size.width - 20
-			print(width)
 			layout.estimatedItemSize = CGSize(width: width, height: width)
 			return layout
 		}()
@@ -95,8 +102,8 @@ private extension MainListView {
 // MARK: IMainListView
 
 extension MainListView: IMainListViewType {
-	func updateView() {
-		self.collectionView.reloadData()
+	var uiCollectionView: UICollectionView {
+		self.collectionView
 	}
 }
 
@@ -105,8 +112,8 @@ extension MainListView: IMainListViewType {
 private extension MainListView {
 	@objc func refresh(sender: UIRefreshControl) {
 		imageCache.removeAllObjects()
+		self.viewController.refresh()
 		self.collectionView.reloadData()
 		sender.endRefreshing()
-		
 	}
 }

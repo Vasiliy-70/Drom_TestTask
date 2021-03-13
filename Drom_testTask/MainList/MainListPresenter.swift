@@ -8,6 +8,8 @@
 import UIKit
 
 protocol IMainListPresenter: class {
+	func reloadData()
+	func removeItemAt(index: Int)
 	func loadImageAt(index: Int) -> UIImage?
 	var viewContent: [String] { get }
 }
@@ -31,11 +33,9 @@ final class MainListPresenter {
 
 extension MainListPresenter {
 	func initViewData() {
-		var count = 0
+		self.viewModel.removeAll()
 		for item in model.imagesUrl {
 			self.viewModel.append(item)
-//			loadDataAt(index: count)
-			count += 1
 		}
 	}
 }
@@ -43,6 +43,14 @@ extension MainListPresenter {
 // MARK: IMainListPresenter
 
 extension MainListPresenter: IMainListPresenter {
+	func reloadData() {
+		self.initViewData()
+	}
+	
+	func removeItemAt(index: Int) {
+		self.viewModel.remove(at: index)
+	}
+	
 	var viewContent: [String] {
 		get {
 			self.viewModel

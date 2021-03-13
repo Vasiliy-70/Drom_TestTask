@@ -9,6 +9,7 @@ import UIKit
 
 protocol IMainListViewController: class {
 	var cellIdentifier: String { get }
+	func refresh()
 }
 
 protocol IMainListView: class {
@@ -32,7 +33,21 @@ final class MainListViewController: UIViewController{
 
 extension MainListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	
+		guard let collectionView = (self.view as? IMainListViewType)?.uiCollectionView else {
+			return
+		}
+	
+		let cell = collectionView.cellForItem(at: indexPath)
 		
+		if (cell as? MainListCollectionViewCell)?.imageView.image != nil {
+			UIView.animate(withDuration: 1.0) {
+				cell?.frame.origin = CGPoint(x: -500, y: 0)
+			}
+			
+			self.presenter?.removeItemAt(index: indexPath.row)
+			collectionView.deleteItems(at: [indexPath])
+		}
 	}
 }
 
@@ -42,10 +57,6 @@ extension MainListViewController: UICollectionViewDataSource {
 		return number ?? 0
 	}
 
-	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		1
-	}
-	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as? MainListCollectionViewCell else {
 			assertionFailure("No tableCellView")
@@ -55,13 +66,16 @@ extension MainListViewController: UICollectionViewDataSource {
 		if let url = URL(string: self.presenter?.viewContent[indexPath.row] ?? "") {
 					cell.imageView.loadImage(from: url)
 				}
-		print(indexPath.row)
+
 		return cell as? UICollectionViewCell ?? UICollectionViewCell()
 	}
 }
 
 extension MainListViewController: IMainListViewController {
-
+	func refresh() {
+		self.presenter?.reloadData()
+	}
+	
 	var cellIdentifier: String {
 		self.cellId
 	}
@@ -69,7 +83,6 @@ extension MainListViewController: IMainListViewController {
 
 extension MainListViewController: IMainListView {
 	func updateData() {
-		(self.view as? IMainListViewType)?.updateView()
+//		(self.view as? IMainListViewType)?.updateView()
 	}
 }
-
