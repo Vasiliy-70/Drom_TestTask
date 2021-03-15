@@ -42,9 +42,9 @@ final class QueryService: IQueryService {
 				}
 			}
 			
-//			DispatchQueue.main.async {
+			DispatchQueue.global(qos: .userInitiated).async {
 				completion(self?.responseData ?? Data(), self?.errorMessage ?? "")
-//			}
+			}
 		}
 		self.dataTask?.resume()
 	}

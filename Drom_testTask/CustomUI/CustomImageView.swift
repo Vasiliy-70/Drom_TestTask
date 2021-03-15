@@ -10,42 +10,45 @@ import UIKit
 let imageCache = NSCache<AnyObject, AnyObject>()
 
 class CustomImageView: UIImageView {
-	var task: URLSessionTask?
 	private var spinner = UIActivityIndicatorView(style: .large)
+	private var queryService: IQueryService
 	
+	init(queryService: IQueryService) {
+		self.queryService = queryService
+		super.init(image: UIImage())
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+extension CustomImageView {
 	func loadImage(from url: URL) {
 		self.image = nil
-		self.addSpinner()
 		
-		if let task = task {
-			task.cancel()
-		}
+		self.addSpinner()
 		
 		if let imageFromCache = imageCache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
 			self.image = imageFromCache
 			self.removeSpinner()
 			return
 		}
-
-		task = URLSession.shared.dataTask(with: url) { (data, responce, error) in
-			guard let data = data,
-				  let newImage = UIImage(data: data)
-			else {
-				return
-			}
-			
+		
+		self.queryService.getDataAt(url: url, completion: { (data, error) in
+			guard let newImage = UIImage(data: data) else { return }
 			imageCache.setObject(newImage, forKey: url.absoluteString as AnyObject)
 			
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+			DispatchQueue.main.async {
 				self.image = newImage
 				self.removeSpinner()
 			}
-		}
-
-		self.task?.resume()
+		})
 	}
+}
 
-	private func addSpinner() {
+private extension CustomImageView {
+	func addSpinner() {
 		self.addSubview(self.spinner)
 		
 		self.spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +60,7 @@ class CustomImageView: UIImageView {
 		self.spinner.startAnimating()
 	}
 	
-	private func removeSpinner() {
+	func removeSpinner() {
 		self.spinner.removeFromSuperview()
 	}
 }

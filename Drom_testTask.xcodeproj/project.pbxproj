@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47457CE625FCF8BF0029A934 /* ExtensionUIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47457CE525FCF8BF0029A934 /* ExtensionUIImageView.swift */; };
 		47457CEB25FD08220029A934 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47457CEA25FD08220029A934 /* CustomImageView.swift */; };
 		477B558025F609C400E8DB6E /* MainListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477B557F25F609C400E8DB6E /* MainListData.swift */; };
 		477B558425F64D5800E8DB6E /* MainListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477B558325F64D5800E8DB6E /* MainListCollectionViewCell.swift */; };
@@ -23,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		47457CE525FCF8BF0029A934 /* ExtensionUIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImageView.swift; sourceTree = "<group>"; };
 		47457CEA25FD08220029A934 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		477B557F25F609C400E8DB6E /* MainListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListData.swift; sourceTree = "<group>"; };
 		477B558325F64D5800E8DB6E /* MainListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -51,14 +49,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		47457CE425FCF8890029A934 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				47457CE525FCF8BF0029A934 /* ExtensionUIImageView.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		47457CE925FD08060029A934 /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				47457CE925FD08060029A934 /* CustomUI */,
-				47457CE425FCF8890029A934 /* Extensions */,
 				47947B1825F6073200EFFCAB /* Networking */,
 				47947B0A25F5FBC500EFFCAB /* MainList */,
 				47947B0825F5FB5C00EFFCAB /* Resources */,
@@ -205,7 +194,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47457CE625FCF8BF0029A934 /* ExtensionUIImageView.swift in Sources */,
 				47947B0F25F5FC7100EFFCAB /* MainListViewController.swift in Sources */,
 				477B558725F6527300E8DB6E /* MainListAssembly.swift in Sources */,
 				47947AF225F5FB2400EFFCAB /* AppDelegate.swift in Sources */,

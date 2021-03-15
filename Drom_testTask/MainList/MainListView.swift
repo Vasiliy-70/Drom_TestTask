@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IMainListViewType: class {
-	var uiCollectionView: UICollectionView { get }
+	var collectionViewLayout: UICollectionView { get }
 }
 
 final class MainListView: UIView {
@@ -40,14 +40,6 @@ final class MainListView: UIView {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-	override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-		super.traitCollectionDidChange(previousTraitCollection)
-		
-		if (traitCollection != previousTraitCollection) {
-			self.setupCollectionView()
-		}
-	}
 }
 
 // MARK: SetupView
@@ -68,14 +60,6 @@ private extension MainListView {
 		self.collectionView.delegate = self.viewController as? UICollectionViewDelegate
 		self.collectionView.dataSource = self.viewController as? UICollectionViewDataSource
 		self.collectionView.refreshControl = self.refreshControl
-		
-		let layoutListCollection: UICollectionViewFlowLayout = {
-			let layout = UICollectionViewFlowLayout()
-			let width = UIScreen.main.bounds.size.width - 20
-			layout.estimatedItemSize = CGSize(width: width, height: width)
-			return layout
-		}()
-		self.collectionView.collectionViewLayout = layoutListCollection
 	}
 }
 
@@ -102,7 +86,7 @@ private extension MainListView {
 // MARK: IMainListView
 
 extension MainListView: IMainListViewType {
-	var uiCollectionView: UICollectionView {
+	var collectionViewLayout: UICollectionView {
 		self.collectionView
 	}
 }
@@ -112,7 +96,7 @@ extension MainListView: IMainListViewType {
 private extension MainListView {
 	@objc func refresh(sender: UIRefreshControl) {
 		imageCache.removeAllObjects()
-		self.viewController.refresh()
+		self.viewController.refreshCollection()
 		self.collectionView.reloadData()
 		sender.endRefreshing()
 	}

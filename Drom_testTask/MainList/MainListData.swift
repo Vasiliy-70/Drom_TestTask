@@ -4,7 +4,6 @@
 //
 //  Created by Боровик Василий on 08.03.2021.
 //
-import UIKit
 
 struct MainListData {
 	var imagesUrl = [

@@ -8,20 +8,11 @@
 import UIKit
 
 final class MainListCollectionViewCell: UICollectionViewCell {
-	var imageView = CustomImageView()
-	
-	private lazy var width: NSLayoutConstraint = {
-		let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
-		width.isActive = true
-		return width
-	}()
+	var imageView = CustomImageView(queryService: QueryService())
 	
 	private enum Constraints {
-		static let imageHorizontalOffset: CGFloat = 10
-		static let imageVerticalOffset: CGFloat = 10
-		static let imageHeight: CGFloat = 400
-		
-		static let contentViewOffset: CGFloat = 5
+		static let imageHorizontalOffset: CGFloat = 5
+		static let imageVerticalOffset: CGFloat = 5
 	}
 	
 	override init(frame: CGRect) {
@@ -34,26 +25,20 @@ final class MainListCollectionViewCell: UICollectionViewCell {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-	override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-		self.width.constant = self.bounds.size.width
-		return self.contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
-	}
 }
 
 private extension MainListCollectionViewCell {
 	func setupView() {
 		self.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-		self.imageView.contentMode = .scaleAspectFill
+		self.imageView.contentMode = .scaleToFill
 	}
 }
 
 // MARK: SetupConstraints
 
-extension MainListCollectionViewCell {
+private extension MainListCollectionViewCell {
 	func setupConstraints() {
 		self.setupImageConstraints()
-		self.setupContentViewConstraints()
 	}
 	
 	func setupImageConstraints() {
@@ -61,19 +46,10 @@ extension MainListCollectionViewCell {
 		self.imageView.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			self.imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Constraints.imageVerticalOffset),
-			self.imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constraints.imageHorizontalOffset),
-			self.imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -Constraints.imageHorizontalOffset),
-			self.imageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor),
-//			self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
-		])
-	}
-	
-	func setupContentViewConstraints() {
-		self.contentView.translatesAutoresizingMaskIntoConstraints = false
-
-		NSLayoutConstraint.activate([
-			self.contentView.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: Constraints.imageVerticalOffset)
+			self.imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constraints.imageVerticalOffset),
+			self.imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.imageHorizontalOffset),
+			self.imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.imageHorizontalOffset),
+			self.imageView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.imageVerticalOffset)
 		])
 	}
 }
