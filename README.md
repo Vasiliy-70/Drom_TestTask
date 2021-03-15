@@ -1,4 +1,4 @@
-# Drom_TestTask
+# Тестовое задание для Дром
 
 Разработать приложение на Swift / Objective-C для iPhone без использования Interface Builder и SwiftUI, версия iOS 10.0+, без использования сторонних фреймворков, только iOS SDK.
 
